@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+
+.container-card {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  mat-card {
+    width: 400px;
+    padding: 20px;
+  }
+}

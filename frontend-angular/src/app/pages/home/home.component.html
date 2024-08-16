@@ -1,0 +1,38 @@
+<mat-toolbar>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span><strong>UserBalance:</strong> {{ (authService.userDetails | async)?.balance }}</span>
+</mat-toolbar>
+
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab *ngFor="let operation of operations; let j = index" [label]="operation[0]">
+        <mat-card style="margin: 10px; max-width: 300px;" appearance="outlined">
+            <mat-card-content>
+                <div>
+                    <form [formGroup]="operationsForms[j]" (submit)="submit(operationsForms[j])">
+                        <mat-form-field>
+                            <label>Operation</label>
+                            <input matInput type="text" formControlName="operation">
+                        </mat-form-field>
+                        <div formArrayName="args">
+                            <div *ngFor="let arg of getControls(operationsForms[j].get('args')); let i = index">
+                                <mat-form-field>
+                                    <input type="number" [placeholder]="'Number ' + (i + 1)" matInput
+                                        [formControlName]="i">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <mat-form-field>
+                            <label>Result</label>
+                            <input readonly="readonly" placeholder="" matInput formControlName="result">
+                        </mat-form-field>
+                        <button type="submit" mat-raised-button color="primary">Make Operation</button>
+                    </form>
+
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-tab>
+</mat-tab-group>
