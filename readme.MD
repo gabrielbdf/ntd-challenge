@@ -22,10 +22,10 @@ The frontend service is responsible for serving the client-side application. It 
 - **Build Context**: `./backend`
 - **Environment Variables**:
   - `DB_HOST`: `database`
-- **Ports**: `8080:8080`
+- **Ports**: `8083:8080`
 - **Depends On**: `database`
 
-The backend service handles API requests and connects to the PostgreSQL database. It listens on port 8080 inside the container and is exposed on port 8080 on the host.
+The backend service handles API requests and connects to the PostgreSQL database. It listens on port 8080 inside the container and is exposed on port 8083 on the host.
 
 ### Database
 
