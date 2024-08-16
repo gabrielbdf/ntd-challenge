@@ -47,14 +47,9 @@ To build and start the services, run:
 
 ```bash
 docker-compose up --build
+```
 
-# Angular Project: User Balance Operations Site
-
-This README provides instructions on setting up and using an Angular project that includes a user login form, a toolbar displaying user balance, and a set of operations for user interaction.
-
-## Prerequisites
-
-Before you begin, ensure you have the following installed:
+# User Balance Operations Site
 
 ## Project Structure
 
