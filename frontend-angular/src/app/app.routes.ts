@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthService } from './services/auth.service';
 import { map } from 'rxjs/internal/operators/map';
+import { HistoryComponent } from './pages/history/history.component';
 
 
 export const canActivate: CanActivateFn = (
@@ -33,6 +34,11 @@ export const routes: Routes = [
     {
         path: 'home',
         component: HomeComponent,
+        canActivate: [canActivate]
+    },
+    {
+        path: 'history',
+        component: HistoryComponent,
         canActivate: [canActivate]
     },
     {

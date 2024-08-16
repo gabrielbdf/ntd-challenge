@@ -18,7 +18,7 @@ public class  InitRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         authorizationService.register(
-            new RegisterDto("admin", "admin", "ADMIN", 20L)
+            new RegisterDto("admin", "admin", "ADMIN", 200L)
         );
     }
 

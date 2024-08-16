@@ -1,18 +1,18 @@
-import { CommonModule, FormatWidth } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { OperationsService } from '../../services/operations.service';
+import { HeaderComponent } from '../../components/header/header.component';
 import { OperationRequest } from '../../model/OperationRequest';
-import { MatInputModule } from '@angular/material/input';
-import { MatDividerModule } from '@angular/material/divider';
-import { group } from '@angular/animations';
 import { AuthService } from '../../services/auth.service';
+import { OperationsService } from '../../services/operations.service';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +28,8 @@ import { AuthService } from '../../services/auth.service';
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDividerModule
+    MatDividerModule,
+    HeaderComponent
   ],
   templateUrl: `home.component.html`,
   styleUrl: './home.component.css',
@@ -40,7 +41,6 @@ export class HomeComponent implements OnInit {
   authService = inject(AuthService);
   fb = inject(FormBuilder);
   operations: any[] = [];
-
   operationsForms: FormGroup[] = [];
 
 

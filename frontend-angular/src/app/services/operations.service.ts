@@ -19,9 +19,15 @@ export class OperationsService {
   getOperations() {
     return this.http.get<ListDetails>(`${environment.host}/operation/list`)
       .pipe(
-        tap((res) => this.authService.userDetails.next(res.userDetails)),
+        tap((res) => {
+          this.authService.userDetails.next(res.userDetails)
+        }),
         map((res) => res.operations)
       )
+  }
+
+  getUserhistory() {
+    return this.http.get<any>(`${environment.host}/operation/history`);
   }
 
   makeOperation(operationRequest: OperationRequest) {
@@ -32,7 +38,12 @@ export class OperationsService {
           'Content-Type': 'application/json'
         }
       }
-    );
+    ).pipe(tap(res => {
+      this.authService.userDetails.next({
+        ...this.authService.userDetails.value,
+        balance: res.userBalance
+      })
+    }));
   }
 
 

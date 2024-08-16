@@ -29,11 +29,9 @@ import { take } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
 
-
   authService = inject(AuthService);
   router = inject(Router);
   isAuth = this.authService.checkLogin();
-
 
   formLogin = new FormGroup({
     username: new FormControl('admin', { nonNullable: true }),

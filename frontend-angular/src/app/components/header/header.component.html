@@ -1,0 +1,12 @@
+<mat-toolbar>
+    <button [matMenuTriggerFor]="menu" mat-icon-button class="example-icon"
+        aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span><strong>UserBalance:</strong> {{ (authService.userDetails | async)?.balance }}</span>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item [routerLink]="['/home']">Home</button>
+    <button mat-menu-item [routerLink]="['/history']">History</button>
+    <button mat-menu-item (click)="logout()">Logout</button>
+</mat-menu>

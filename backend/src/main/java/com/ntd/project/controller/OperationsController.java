@@ -1,7 +1,10 @@
 package com.ntd.project.controller;
 
+import com.ntd.project.dto.OperationHistory;
 import com.ntd.project.dto.OperationList;
+import com.ntd.project.model.OperationRecord;
 import com.ntd.project.security.service.UserService;
+import com.ntd.project.service.OperationRecordService;
 import org.apache.commons.lang3.stream.Streams;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,11 +20,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
-import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @RestController
@@ -33,6 +32,7 @@ public class OperationsController {
     private final OperationServiceEnumStrategy operationServiceEnumStrategy;
     private final OperationServiceGroovy operationServiceGroovy;
     private final UserService userService;
+    private final OperationRecordService operationRecordService;
 
 
     @Operation(summary = "Operation", security = @SecurityRequirement(name = "bearerAuth"))
@@ -44,7 +44,18 @@ public class OperationsController {
         com.ntd.project.dto.Operation[] operations = com.ntd.project.dto.Operation.values();
         List<List<String>> operationList = Streams.of(operations).map(i -> List.of(i.name(), i.numOfArgs().toString())).collect(Collectors.toList());
         return new OperationList(operationList, new com.ntd.project.dto.UserDetails(username, user.getBalance()));
+    }
 
+    @Operation(summary = "Operation", security = @SecurityRequirement(name = "bearerAuth"))
+    @GetMapping("/history")
+    public List<OperationHistory> getUserHistory(
+            @AuthenticationPrincipal UserDetails userDetails) {
+        var username = userDetails.getUsername();
+        var user = userService.getUserDetais(username);
+        return operationRecordService
+                .getRecords(user)
+                .stream().map(OperationHistory::from)
+                .toList();
     }
 
     @Operation(summary = "Operation", security = @SecurityRequirement(name = "bearerAuth"))

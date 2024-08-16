@@ -8,6 +8,7 @@ import com.ntd.project.repository.OperationRecordRepository;
 import com.ntd.project.repository.OperationRepository;
 import com.ntd.project.security.model.UserModel;
 import com.ntd.project.security.repository.UserRepository;
+import com.ntd.project.security.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,7 @@ class OperationServiceGroovyTest {
     private OperationRepository operationRepository;
 
     @Mock
-    private UserRepository userRepository;
+    private UserService userService;
 
     @InjectMocks
     private OperationServiceGroovy operationServiceGroovy;
@@ -48,6 +49,11 @@ class OperationServiceGroovyTest {
 
         OperationRequest request = mock(OperationRequest.class);
         when(request.operation()).thenReturn(Operation.RAMDOM_STRING);
+        var userModel = mock(UserModel.class);
+        when(userService.getUserDetais(anyString())).thenReturn(userModel);
+        when(userService.decreaseUserBalance(any(), any())).thenReturn(userModel);
+        var operationModel = mock(OperationModel.class);
+        when(operationRepository.findByOperation(any())).thenReturn(Optional.of(operationModel));
 
         String username = "testUser";
 
@@ -69,7 +75,9 @@ class OperationServiceGroovyTest {
                 .groovyExpression("args.collect{it.toLong()}.sum().toString()")
                 .build();
         when(operationRepository.findByOperation(Operation.ADD)).thenReturn(Optional.of(model));
-        when(userRepository.findByUsername(anyString())).thenReturn(mock(UserModel.class));
+        var userModel = mock(UserModel.class);
+        when(userService.getUserDetais(anyString())).thenReturn(userModel);
+        when(userService.decreaseUserBalance(any(), any())).thenReturn(userModel);
 
         String username = "testUser";
 

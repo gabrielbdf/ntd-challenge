@@ -28,7 +28,7 @@ public class UserService {
             userRepository.save(user);
             return user;
         }
-        throw new IllegalStateException("User does not have enough balance to carry out the operation");
+        throw new IllegalStateException("User does not have enough balance to carry out this operation");
     }
 
 
