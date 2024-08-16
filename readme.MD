@@ -59,6 +59,8 @@ The project consists of the following main components:
 
 This component handles user authentication.
 
+- Default user: admin:admin
+
 ### 2. **Toolbar Component**
 
 Displays the user's current balance retrieved from the backend service.
