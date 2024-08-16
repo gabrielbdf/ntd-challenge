@@ -8,10 +8,10 @@ This project uses Docker Compose to define and run a multi-container Docker appl
 
 - **Image**: `frontend`
 - **Build Context**: `./frontend`
-- **Ports**: `4201:4200`
+- **Ports**: `4200:4200`
 - **Depends On**: `backend`
 
-The frontend service is responsible for serving the client-side application. It listens on port 4200 inside the container and is exposed on port 4201 on the host.
+The frontend service is responsible for serving the client-side application. It listens on port 4200 inside the container and is exposed on port 4200 on the host.
 
 ### Backend
 

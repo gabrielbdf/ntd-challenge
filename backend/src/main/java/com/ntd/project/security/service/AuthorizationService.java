@@ -30,7 +30,7 @@ public class AuthorizationService implements UserDetailsService {
     private AuthenticationManager authenticationManager;
 
     public AuthorizationService(ApplicationContext applicationContext, UserRepository userRepository,
-            TokenService tokenService) {
+                                TokenService tokenService) {
         this.applicationContext = applicationContext;
         this.userRepository = userRepository;
         this.tokenService = tokenService;
@@ -54,7 +54,7 @@ public class AuthorizationService implements UserDetailsService {
             return ResponseEntity.badRequest().build();
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.password());
-        UserModel newUser = new UserModel(registerDto.username(), encryptedPassword, registerDto.role());
+        UserModel newUser = new UserModel(registerDto.username(), encryptedPassword, registerDto.role(), registerDto.balance());
         newUser.setCreatedAt(new Date(System.currentTimeMillis()));
         this.userRepository.save(newUser);
         return ResponseEntity.ok().build();

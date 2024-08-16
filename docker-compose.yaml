@@ -6,7 +6,7 @@ services:
     build:
       context: ./frontend
     ports:
-      - "4201:4200"
+      - "4200:4200"
     depends_on:
       - backend
 

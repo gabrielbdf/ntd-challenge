@@ -1,5 +1,7 @@
 package com.ntd.project.controller;
 
+import com.ntd.project.dto.OperationList;
+import com.ntd.project.security.service.UserService;
 import org.apache.commons.lang3.stream.Streams;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +20,8 @@ import lombok.AllArgsConstructor;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,13 +32,19 @@ public class OperationsController {
 
     private final OperationServiceEnumStrategy operationServiceEnumStrategy;
     private final OperationServiceGroovy operationServiceGroovy;
+    private final UserService userService;
 
 
-    @Operation(summary = "Operation")
+    @Operation(summary = "Operation", security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping("/list")
-    public List<List<String>> getOperations() {
+    public OperationList getOperations(
+            @AuthenticationPrincipal UserDetails userDetails) {
+        var username = userDetails.getUsername();
+        var user = userService.getUserDetais(username);
         com.ntd.project.dto.Operation[] operations = com.ntd.project.dto.Operation.values();
-        return Streams.of(operations).map(i -> List.of(i.name(), i.numOfArgs().toString())).collect(Collectors.toList());
+        List<List<String>> operationList = Streams.of(operations).map(i -> List.of(i.name(), i.numOfArgs().toString())).collect(Collectors.toList());
+        return new OperationList(operationList, new com.ntd.project.dto.UserDetails(username, user.getBalance()));
+
     }
 
     @Operation(summary = "Operation", security = @SecurityRequirement(name = "bearerAuth"))

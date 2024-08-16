@@ -28,23 +28,26 @@ import lombok.Setter;
 public class UserModel implements UserDetails {
 
 
-    public UserModel(String username, String password, String userRole) {
+    public UserModel(String username, String password, String userRole, Long balance) {
         this.username = username;
         this.password = password;
         this.userRole = userRole;
         this.status = StatusEnum.ACTIVE;
+        this.balance = balance;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique=true)
+    @Column(unique = true)
     private String username;
 
     private String password;
 
     private String userRole;
+
+    private Long balance;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -1,5 +1,5 @@
 package com.ntd.project.dto;
 
-public record OperationResponse(String operation, String result) {
+public record OperationResponse(Boolean isDone, String operation, String result, Long userBalance) {
 
 }

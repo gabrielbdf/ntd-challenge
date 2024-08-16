@@ -11,14 +11,14 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class InitRunner implements ApplicationRunner {
+public class  InitRunner implements ApplicationRunner {
 
    private final AuthorizationService authorizationService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         authorizationService.register(
-            new RegisterDto("admin", "admin", "ADMIN")
+            new RegisterDto("admin", "admin", "ADMIN", 20L)
         );
     }
 

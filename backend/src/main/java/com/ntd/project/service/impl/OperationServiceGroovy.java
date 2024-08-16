@@ -1,5 +1,6 @@
 package com.ntd.project.service.impl;
 
+import com.ntd.project.security.service.UserService;
 import org.springframework.stereotype.Service;
 
 import com.ntd.project.dto.Operation;
@@ -20,25 +21,35 @@ public class OperationServiceGroovy implements OperationService {
 
     private final OperationRecordRepository operationRecordRepository;
     private final OperationRepository operationRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
     public OperationResponse operate(OperationRequest operationRequest, String username) {
-        if (Operation.RAMDOM_STRING.equals(operationRequest.operation())) {
-            return new OperationResponse(operationRequest.operation().name(),
-                    getRandomString());
+        var user = userService.getUserDetais(username);
+        var operation = operationRepository.findByOperation(operationRequest.operation()).orElseThrow();
+
+        try {
+            user = userService.decreaseUserBalance(user, operation.getCost());
+            if (Operation.RAMDOM_STRING.equals(operationRequest.operation())) {
+                return new OperationResponse(
+                        true,
+                        operationRequest.operation().name(),
+                        getRandomString(), user.getBalance());
+            }
+            binding.setVariable("args", operationRequest.args());
+            GroovyShell shell = new GroovyShell(binding);
+            OperationModel operationModel = operationRepository.findByOperation(operationRequest.operation()).get();
+            OperationResponse result = new OperationResponse(true, operationRequest.operation().name(),
+                    (String) shell.evaluate(operationModel.getGroovyExpression()), user.getBalance());
+            operationRecordRepository.saveResult(
+                    result,
+                    operationRequest,
+                    operation,
+                    user);
+            return result;
+        } catch (IllegalStateException e) {
+            return new OperationResponse(false, operationRequest.operation().name(), e.getLocalizedMessage(), user.getBalance());
         }
-        binding.setVariable("args", operationRequest.args());
-        GroovyShell shell = new GroovyShell(binding);
-        OperationModel operationModel = operationRepository.findByOperation(operationRequest.operation()).get();
-        OperationResponse result = new OperationResponse(operationRequest.operation().name(),
-                (String) shell.evaluate(operationModel.getGroovyExpression()));
-        operationRecordRepository.saveResult(
-                result,
-                operationRequest,
-                operationRepository.findByOperation(operationRequest.operation()).get(),
-                userRepository.findByUsername(username));
-        return result;
     }
 
     public static String getRandomString() {
