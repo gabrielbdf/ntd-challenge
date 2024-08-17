@@ -22,7 +22,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     generate-ddl: true
-    defer-datasource-initialization: true
+    defer-datasource-initialization: false
   sql:
     init:
       platform: postgres
@@ -32,4 +32,4 @@ springdoc:
     path: /v3/api-docs
 
 server:
-  port: 8080
+  port: 8083
