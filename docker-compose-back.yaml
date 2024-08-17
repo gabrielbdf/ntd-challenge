@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+
+  frontend:
+    image: frontend
+    build:
+      context: ./frontend-angular
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+    restart: always
+
+
+  backend:
+    image: backend
+    container_name: backend
+    build:
+      context: ./backend
+    environment:
+      DB_HOST: database
+    ports:
+      - "8083:8083"
+    restart: always
+  
+
