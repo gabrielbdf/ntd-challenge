@@ -2,12 +2,7 @@ package com.ntd.project.model;
 
 import com.ntd.project.dto.Operation;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity(name = "operation")
@@ -16,10 +11,10 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class OperationModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Enumerated(EnumType.STRING)

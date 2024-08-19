@@ -51,7 +51,11 @@ public enum Operation {
     SQRT {
         @Override
         public String calculate(Long... args) {
-            return String.valueOf(Math.sqrt(args[0]));
+            Double result = Math.sqrt(args[0]);
+            if(result.isNaN()) {
+                throw new ArithmeticException("Cannot square root of negative");
+            }
+            return String.valueOf(result);
         }
         @Override
         public Integer numOfArgs() {

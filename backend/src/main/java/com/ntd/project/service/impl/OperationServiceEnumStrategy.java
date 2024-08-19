@@ -27,13 +27,14 @@ public class OperationServiceEnumStrategy implements OperationService {
         try {
             var operation = operationRepository.findByOperation(operationRequest.operation())
                     .orElseThrow();
+            var operationResult = operationRequest.operation().calculate(operationRequest.args());
 
             user = userService.decreaseUserBalance(user, operation.getCost());
 
             OperationResponse result = new OperationResponse(
                     true,
                     operationRequest.operation().name(),
-                    operationRequest.operation().calculate(operationRequest.args()),
+                    operationResult,
                     user.getBalance()
             );
 
@@ -43,7 +44,7 @@ public class OperationServiceEnumStrategy implements OperationService {
                     operation,
                     user);
             return result;
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException | ArithmeticException e) {
             return new OperationResponse(false, operationRequest.operation().name(), e.getLocalizedMessage(), user.getBalance());
         }
     }

@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,11 +50,14 @@ public class OperationsController {
     @Operation(summary = "Operation", security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping("/history")
     public List<OperationHistory> getUserHistory(
-            @AuthenticationPrincipal UserDetails userDetails) {
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam Optional<Integer> page,
+            @RequestParam Optional<Integer>  perPage
+    ) {
         var username = userDetails.getUsername();
         var user = userService.getUserDetais(username);
         return operationRecordService
-                .getRecords(user)
+                .getRecords(user, page, perPage)
                 .stream().map(OperationHistory::from)
                 .toList();
     }

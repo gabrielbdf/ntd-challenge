@@ -6,9 +6,11 @@
             <mat-card-content>
                 <div>
                     <form [formGroup]="operationsForms[j]" (submit)="submit(operationsForms[j])">
-                        <mat-form-field>
-                            <label>Operation</label>
-                            <input matInput type="text" formControlName="operation">
+                        <h4>
+                            <label>Operation: {{operationsForms[j].get('operation')?.value}}</label>
+                        </h4>
+                        <mat-form-field style="display: none">
+                            <input matInput type="text" readonly="readonly" formControlName="operation">
                         </mat-form-field>
                         <div formArrayName="args">
                             <div *ngFor="let arg of getControls(operationsForms[j].get('args')); let i = index">

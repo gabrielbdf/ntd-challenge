@@ -47,4 +47,12 @@ export class AuthService {
     this.isLogged.next(false);
   }
 
+  get isLogged$(): BehaviorSubject<boolean> {
+    return this.isLogged;
+  }
+
+  set isLogged$(value: boolean) {
+    this.isLogged.next(value);
+  }
+
 }
